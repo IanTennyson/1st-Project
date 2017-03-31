@@ -18,21 +18,26 @@ class IngredientList
     @id = results.first()['id'].to_i
   end
 
-    def self.delete_all()
-      sql = "DELETE FROM ingredients_lists"
-      SqlRunner.run( sql )
-    end
+  def delete()
+    sql = "DELETE FROM ingredients_lists WHERE id = #{@id}"
+    SqlRunner.run(sql)
+  end
 
-    def self.all
-      sql = "SELECT * FROM ingredients_lists"
-      results = SqlRunner.run( sql )
-      return results.map { |hash| IngredientList.new( hash ) }
-    end
+  def self.delete_all()
+    sql = "DELETE FROM ingredients_lists"
+    SqlRunner.run( sql )
+  end
 
-    def self.find( id )
-      sql = "SELECT * FROM ingredients_lists WHERE id=#{id}"
-      results = SqlRunner.run( sql )
-      return IngredientList.new( results.first )
-    end
+  def self.all()
+    sql = "SELECT * FROM ingredients_lists"
+    results = SqlRunner.run( sql )
+    return results.map { |hash| IngredientList.new( hash ) }
+  end
+
+  def self.find( id )
+    sql = "SELECT * FROM ingredients_lists WHERE id=#{id}"
+    results = SqlRunner.run( sql )
+    return IngredientList.new( results.first )
+  end
 
 end

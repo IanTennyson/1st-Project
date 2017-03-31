@@ -18,6 +18,11 @@ class Ingredient
     @id = results.first()['id'].to_i
   end
 
+  def delete
+    sql = "DELETE FROM ingredients WHERE id = #{@id}"
+    SqlRunner.run(sql)
+  end
+
   def self.delete_all()
     sql = "DELETE FROM ingredients"
     SqlRunner.run( sql )
