@@ -12,7 +12,7 @@ CREATE TABLE ingredients (
   id SERIAL8 PRIMARY KEY,
   name VARCHAR(255),
   measure_id INT4 REFERENCES measures(id) ON DELETE CASCADE,
-  price DECIMAL,
+  price_per_ltr DECIMAL,
   is_alcoholic BOOLEAN
 );
 

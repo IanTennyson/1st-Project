@@ -15,10 +15,17 @@ class Measure
     @id = results.first()['id'].to_i
   end
 
+  def update()
+    sql = "UPDATE measures SET (ml) = ('#{@ml}') WHERE id = #{@id}"
+    SqlRunner.run(sql)
+  end
+
   def delete()
     sql = "DELETE FROM measures WHERE id = #{@id}"
     SqlRunner.run(sql)
   end
+
+
 
   def self.delete_all()
     sql = "DELETE FROM measures"
@@ -35,6 +42,11 @@ class Measure
     sql = "SELECT * FROM measures WHERE id=#{id}"
     results = SqlRunner.run( sql )
     return Measure.new( results.first )
+  end
+
+  def self.map_items(sql)
+    measures = SqlRunner.run(sql)
+    return measures.map { |measure| Measure.new(measure) }
   end
 
 end

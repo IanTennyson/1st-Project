@@ -1,0 +1,25 @@
+<h1>In Stock</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th>Alcoholic</th>
+    <th></th>
+    <th>Price Per Ltr</th>
+    <hr/>
+  </tr>
+  <% for ingredient in @ingredients %>
+  <tr>
+    <td><%= ingredient.name %></td>
+    <td>|</td>
+    <td><%= ingredient.is_alcoholic %></td>
+    <td>|</td>
+    <td>£<%= ingredient.price_per_ltr %></td>
+
+  </tr>
+
+  <% end %>
+
+</table>
+<hr/>

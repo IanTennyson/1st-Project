@@ -24,18 +24,20 @@ fifty_ml.save()
 
 
 
-ingredient1 = Ingredient.new({ 'name' => 'Vodka', 'measure_id' => fifty_ml.id, 'price' => '15', 'is_alcoholic' => true })
+ingredient1 = Ingredient.new({ 'name' => 'Vodka', 'measure_id' => fifty_ml.id, 'price_per_ltr' => 15.0, 'is_alcoholic' => true })
 ingredient1.save()
 
-ingredient2 = Ingredient.new({ 'name' => 'Gin', 'measure_id' => fifty_ml.id, 'price' => '17', 'is_alcoholic' => true })
+ingredient2 = Ingredient.new({ 'name' => 'Gin', 'measure_id' => fifty_ml.id, 'price_per_ltr' => 15.0, 'is_alcoholic' => true })
 ingredient2.save()
 
-ingredient3 = Ingredient.new({ 'name' => 'Rum', 'measure_id' => fifty_ml.id, 'price' => '19', 'is_alcoholic' => true })
+ingredient3 = Ingredient.new({ 'name' => 'Rum', 'measure_id' => fifty_ml.id, 'price_per_ltr' => 15.0, 'is_alcoholic' => true })
 ingredient3.save()
 
-ingredient4 = Ingredient.new({ 'name' => 'Tequila', 'measure_id' => fifty_ml.id, 'price' => '20', 'is_alcoholic' => true })
+ingredient4 = Ingredient.new({ 'name' => 'Tequila', 'measure_id' => fifty_ml.id, 'price_per_ltr' => 28.58, 'is_alcoholic' => true })
 ingredient4.save()
 
+ingredient5 = Ingredient.new({ 'name' => 'Orange Juice', 'measure_id' => fifty_ml.id, 'price_per_ltr' => 1.23, 'is_alcoholic' => false})
+ingredient5.save()
 
 
 ingredients_list1 = IngredientList.new({ 'ing1_id' => ingredient1.id, 'ing2_id' => ingredient2.id, 'ing3_id' => ingredient3.id, 'ing4_id' => ingredient4.id })

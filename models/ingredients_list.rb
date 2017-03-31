@@ -18,10 +18,18 @@ class IngredientList
     @id = results.first()['id'].to_i
   end
 
+  def update()
+    sql = "UPDATE ingredients_lists SET (ing1_id, ing2_id, ing3_id, ing4_id) = ( #{@ing1_id}, #{@ing2_id}, #{@ing3_id}, #{@ing4_id} ) WHERE id = #{@id}"
+    SqlRunner.run(sql)
+  end
+
   def delete()
     sql = "DELETE FROM ingredients_lists WHERE id = #{@id}"
     SqlRunner.run(sql)
   end
+
+
+
 
   def self.delete_all()
     sql = "DELETE FROM ingredients_lists"
@@ -38,6 +46,11 @@ class IngredientList
     sql = "SELECT * FROM ingredients_lists WHERE id=#{id}"
     results = SqlRunner.run( sql )
     return IngredientList.new( results.first )
+  end
+
+  def self.map_items(sql)
+    ingredients_lists = SqlRunner.run(sql)
+    return ingredients_lists.map { |ingredient_list| IngredientList.new(ingredient_list) }
   end
 
 end

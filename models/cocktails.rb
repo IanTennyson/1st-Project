@@ -17,10 +17,17 @@ class Cocktail
     @id = results.first()['id'].to_i
   end
 
+  def update()
+    sql = "UPDATE cocktails SET (name, ing_list_id, prep_description) = ( '#{@name}', #{@ing_list_id}, '#{@prep_description}') WHERE id = #{@id}"
+    SqlRunner.run(sql)
+  end
+
   def delete
     sql = "DELETE FROM cocktails WHERE id = #{@id}"
     SqlRunner.run(sql)
   end
+
+
 
   def self.delete_all()
     sql = "DELETE FROM cocktails"
@@ -37,6 +44,11 @@ class Cocktail
     sql = "SELECT * FROM cocktails WHERE id = #{id}"
     results = SqlRunner.run( sql )
     return Cocktail.new( results.first )
+  end
+
+  def self.map_items(sql)
+    cocktails = SqlRunner.run(sql)
+    return cocktails.map { |cocktail| Cocktail.new(cocktail) }
   end
 
 end
