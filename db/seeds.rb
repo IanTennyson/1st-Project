@@ -1,8 +1,13 @@
 require_relative( '../models/measures.rb' )
 require_relative( '../models/ingredients.rb' )
-require_relative( '../models/ingredients_lists.rb' )
+require_relative( '../models/ingredients_list.rb' )
 require_relative( '../models/cocktails.rb' )
 require('pry-byebug')
+
+Cocktail.delete_all()
+IngredientList.delete_all()
+Ingredient.delete_all()
+Measure.delete_all()
 
 five_ml = Measure.new({ 'ml' => '5' })
 five_ml.save()
@@ -17,6 +22,8 @@ twentyfive_ml.save()
 fifty_ml = Measure.new({ 'ml' => '50' })
 fifty_ml.save()
 
+
+
 ingredient1 = Ingredient.new({ 'name' => 'Vodka', 'measure_id' => fifty_ml.id, 'price' => '15', 'is_alcoholic' => true })
 ingredient1.save()
 
@@ -30,6 +37,12 @@ ingredient4 = Ingredient.new({ 'name' => 'Tequila', 'measure_id' => fifty_ml.id,
 ingredient4.save()
 
 
+
+ingredients_list1 = IngredientList.new({ 'ing1_id' => ingredient1.id, 'ing2_id' => ingredient2.id, 'ing3_id' => ingredient3.id, 'ing4_id' => ingredient4.id })
+ingredients_list1.save()
+
+cocktail1 = Cocktail.new({ 'name' => 'Hot Mess', 'ing_list_id' => ingredients_list1.id, 'prep_description' => 'The hot mess, illegal in most countries.'})
+cocktail1.save()
 
 binding.pry
 nil
