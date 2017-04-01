@@ -22,6 +22,7 @@ class Ingredient
     results = SqlRunner.run(sql)
     @id = results.first()['id'].to_i
     ingredient_cost_price()
+    ingredient_sale_price()
   end
 
   def update()
@@ -55,7 +56,16 @@ class Ingredient
     SqlRunner.run(sql)
   end
 
-  
+  def ingredient_sale_price()
+    sale_price = ingredient_cost_price() * 2.5
+    update_sale_price(sale_price)
+    return cost_price
+  end
+
+  def update_sale_price(new_sale_price)
+    sql = "UPDATE ingredients SET (sale_price) = (#{new_sale_price}) WHERE id = #{@id}"
+    SqlRunner.run(sql)
+  end
 
   def price_per_ml()
     cost_of_ltr = price_per_ltr()
