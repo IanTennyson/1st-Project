@@ -1,8 +1,9 @@
 require_relative( '../db/sql_runner' )
+require('pry')
 
 class Ingredient
 
-  attr_reader :id, :name, :is_alcoholic, :price_per_ltr
+  attr_reader :id, :name, :is_alcoholic, :price_per_ltr, :quantity
 
   def initialize(options)
     @id = options['id'].to_i
@@ -39,8 +40,8 @@ class Ingredient
     return SqlRunner.run(sql).first().values().pop.to_i
   end
 
-  def price_of_stock()
-    result = quantity() * price_per_ltr()
+  def cost_price(x, y)
+    result = x * y()
     return result
   end
 
@@ -82,19 +83,42 @@ class Ingredient
     results = SqlRunner.run( sql )
     return Ingredient.new( results.first )
   end
-  
-  # def self.stock_cost_price()
-  #   sql = "SELECT price_per_ltr FROM ingredients"
-  #   array_of_strings = SqlRunner.run(sql).values().flatten()
-  #   cost_price_array = array_of_strings.map {|string| string.to_f}
-  #   sum = 0.00
-  #   cost_price_array.each {|num| sum += num}
-  #   return sum
-  # end
+
+
+  def self.all_price_per_ltrs()
+    sql = "SELECT price_per_ltr FROM ingredients"
+    result = SqlRunner.run( sql ).values().flatten()
+    ltr_price_array = result.map {|string| string.to_f}
+    return ltr_price_array
+  end
+
+  def self.all_quantities()
+    sql = "SELECT quantity FROM ingredients"
+    quantity_string_array = SqlRunner.run( sql ).values().flatten()
+    quantity_array = quantity_string_array.map{|string| string.to_f}
+    return quantity_array
+  end
+
+  def self.all_quantities_by_id(id)
+    sql = "SELECT quantity FROM ingredients WHERE id = #{id}"
+    quantity_string_array = SqlRunner.run( sql ).values().flatten()
+    quantity_array = quantity_string_array.map{|string| string.to_f}
+    return quantity_array
+  end
+
+  def self.stock_cost_price_array()
+    [all_price_per_ltrs(), all_quantities()].transpose.map {|a| a.inject(:*)}
+  end
+
+  def self.total_stock_cost_price()
+    sum = 0.0
+    stock_cost_price_array.each{ |num|  sum+=num}
+    return sum.round(2)
+  end
 
   def self.map_items(sql)
     ingredients = SqlRunner.run(sql)
     return ingredients.map { |ingredient| Ingredient.new(ingredient) }
   end
-
+  
 end

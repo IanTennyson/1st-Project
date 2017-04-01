@@ -21,6 +21,8 @@
       <td><%= alc_ing.name %></td>
       <td>|</td>
       <td>£<%= alc_ing.price_per_ltr %></td>
+      <td>|</td>
+      <td><%= @quantity %></td>
     </tr>
   <% end %>
 </table>
@@ -54,5 +56,5 @@
 <table>
   <th>Total Cost Price</th>
   <th></th>
-  <td>£<%= @cost_price %></td>
+  <td>£<%= @total_cost_price %></td>
 </table>
