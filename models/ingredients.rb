@@ -3,7 +3,7 @@ require('pry')
 
 class Ingredient
 
-  attr_reader :id, :name, :is_alcoholic, :price_per_ltr, :quantity
+  attr_reader :id, :name, :is_alcoholic, :price_per_ltr, :quantity, :cost_price, :sale_price, :profit
 
   def initialize(options)
     @id = options['id'].to_i
@@ -12,16 +12,20 @@ class Ingredient
     @price_per_ltr = options['price_per_ltr'].to_f
     @is_alcoholic = options['is_alcoholic'] 
     @quantity = options['quantity'].to_i
+    @cost_price = options['cost_price'].to_f
+    @sale_price = options['sale_price'].to_f
+    @profit = options['profit'].to_f
   end
 
   def save()
-    sql = "INSERT INTO ingredients (name, measure_id, price_per_ltr, is_alcoholic, quantity) VALUES ( '#{@name}', #{@measure_id}, '#{@price_per_ltr}', #{@is_alcoholic}, #{@quantity} ) RETURNING *"
+    sql = "INSERT INTO ingredients (name, measure_id, price_per_ltr, is_alcoholic, quantity, cost_price, sale_price, profit) VALUES ( '#{@name}', #{@measure_id}, '#{@price_per_ltr}', #{@is_alcoholic}, #{@quantity}, #{cost_price}, #{sale_price}, #{profit} ) RETURNING *"
     results = SqlRunner.run(sql)
     @id = results.first()['id'].to_i
+    ingredient_cost_price()
   end
 
   def update()
-    sql = "UPDATE ingredients SET (name, measure_id, price, is_alcoholic) = ( '#{@name}', #{@measure_id}, '#{@price_per_ltr}', #{@is_alcoholic}, #{@quantity}) WHERE id = #{@id}"
+    sql = "UPDATE ingredients SET (name, measure_id, price, is_alcoholic, quantity, cost_price, sale_price, profit) = ( '#{@name}', #{@measure_id}, '#{@price_per_ltr}', #{@is_alcoholic}, #{@quantity}, #{cost_price}, #{sale_price}, #{profit}) WHERE id = #{@id}"
     SqlRunner.run(sql)
   end
 
@@ -40,10 +44,18 @@ class Ingredient
     return SqlRunner.run(sql).first().values().pop.to_i
   end
 
-  def cost_price(x, y)
-    result = x * y()
-    return result
+  def ingredient_cost_price()
+    cost_price = price_per_ltr() * quantity()
+    update_cost_price(cost_price)
+    return cost_price
   end
+
+  def update_cost_price(new_cost_price)
+    sql = "UPDATE ingredients SET (cost_price) = (#{new_cost_price}) WHERE id = #{@id}"
+    SqlRunner.run(sql)
+  end
+
+  
 
   def price_per_ml()
     cost_of_ltr = price_per_ltr()
@@ -101,9 +113,8 @@ class Ingredient
 
   def self.all_quantities_by_id(id)
     sql = "SELECT quantity FROM ingredients WHERE id = #{id}"
-    quantity_string_array = SqlRunner.run( sql ).values().flatten()
-    quantity_array = quantity_string_array.map{|string| string.to_f}
-    return quantity_array
+    result = SqlRunner.run( sql )
+    return Ingredient.new( result.first)
   end
 
   def self.stock_cost_price_array()

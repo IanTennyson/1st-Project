@@ -17,14 +17,22 @@
   </tr>
   
   <% for alc_ing in @alc_ingredients %>
+  
     <tr>
       <td><%= alc_ing.name %></td>
       <td>|</td>
       <td>£<%= alc_ing.price_per_ltr %></td>
       <td>|</td>
-      <td><%= @quantity %></td>
+      <td><%= alc_ing.quantity %></td>
+      <td>|</td>
+      <td><%= alc_ing.cost_price %></td>
+      <td>|</td>
     </tr>
   <% end %>
+  <tr>  
+
+
+ 
 </table>
   
   <hr/>
@@ -49,6 +57,11 @@
       <td><%= non_alc_ing.name %></td>
       <td>|</td>
       <td>£<%= non_alc_ing.price_per_ltr %></td>
+      <td>|</td>
+      <td><%= non_alc_ing.quantity %></td>
+      <td>|</td>
+      <td><%= non_alc_ing.cost_price %></td>
+      <td>|</td>
     </tr>    
   <% end %>
 </table>

@@ -2,7 +2,7 @@ require_relative( '../db/sql_runner' )
 
 class Cocktail
 
-  attr_reader
+  attr_reader :id, :name, :ing_list_id, :prep_description
 
   def initialize(options)
     @id = options['id'].to_i
@@ -26,8 +26,6 @@ class Cocktail
     sql = "DELETE FROM cocktails WHERE id = #{@id}"
     SqlRunner.run(sql)
   end
-
-
 
   def self.delete_all()
     sql = "DELETE FROM cocktails"
