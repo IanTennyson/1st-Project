@@ -2,24 +2,57 @@
 
 <table>
   <tr>
-    <th>Name</th>
-    <th></th>
-    <th>Alcoholic</th>
+    <th>Spirit</th>
     <th></th>
     <th>Price Per Ltr</th>
+    <th></th>
+    <th>Quantity</th>
+    <th></th>
+    <th>Cost Price</th>
+    <th></th>
+    <th>Sale Price</th>
+    <th></th>
+    <th>Profit</th>
     <hr/>
   </tr>
-  <% for ingredient in @ingredients %>
-  <tr>
-    <td><%= ingredient.name %></td>
-    <td>|</td>
-    <td><%= ingredient.is_alcoholic %></td>
-    <td>|</td>
-    <td>£<%= ingredient.price_per_ltr %></td>
+  
+  <% for alc_ing in @alc_ingredients %>
+    <tr>
+      <td><%= alc_ing.name %></td>
+      <td>|</td>
+      <td>£<%= alc_ing.price_per_ltr %></td>
+    </tr>
+  <% end %>
+</table>
+  
+  <hr/>
 
+<table>
+  <tr>
+    <th>Juice</th>
+    <th></th>
+    <th>Price Per Ltr</th>
+    <th></th>
+    <th>Quantity</th>
+    <th></th>
+    <th>Cost Price</th>
+    <th></th>
+    <th>Sale Price</th>
+    <th></th>
+    <th>Profit</th>
   </tr>
 
+  <% for non_alc_ing in @non_alc_ingredients %>
+    <tr>
+      <td><%= non_alc_ing.name %></td>
+      <td>|</td>
+      <td>£<%= non_alc_ing.price_per_ltr %></td>
+    </tr>    
   <% end %>
-
 </table>
 <hr/>
+<table>
+  <th>Total Cost Price</th>
+  <th></th>
+  <td>£<%= @cost_price %></td>
+</table>

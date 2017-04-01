@@ -10,16 +10,17 @@ class Ingredient
     @measure_id = options['measure_id']
     @price_per_ltr = options['price_per_ltr'].to_f
     @is_alcoholic = options['is_alcoholic'] 
+    @quantity = options['quantity'].to_i
   end
 
   def save()
-    sql = "INSERT INTO ingredients (name, measure_id, price_per_ltr, is_alcoholic) VALUES ( '#{@name}', #{@measure_id}, '#{@price_per_ltr}', #{@is_alcoholic} ) RETURNING *"
+    sql = "INSERT INTO ingredients (name, measure_id, price_per_ltr, is_alcoholic, quantity) VALUES ( '#{@name}', #{@measure_id}, '#{@price_per_ltr}', #{@is_alcoholic}, #{@quantity} ) RETURNING *"
     results = SqlRunner.run(sql)
     @id = results.first()['id'].to_i
   end
 
   def update()
-    sql = "UPDATE ingredients SET (name, measure_id, price, is_alcoholic) = ( '#{@name}', #{@measure_id}, '#{@price_per_ltr}', #{@is_alcoholic} ) WHERE id = #{@id}"
+    sql = "UPDATE ingredients SET (name, measure_id, price, is_alcoholic) = ( '#{@name}', #{@measure_id}, '#{@price_per_ltr}', #{@is_alcoholic}, #{@quantity}) WHERE id = #{@id}"
     SqlRunner.run(sql)
   end
 
@@ -33,22 +34,27 @@ class Ingredient
     return SqlRunner.run(sql).first().values().pop.to_f
   end
 
+  def quantity()
+    sql = "SELECT quantity FROM ingredients WHERE id = #{@id}"
+    return SqlRunner.run(sql).first().values().pop.to_i
+  end
+
+  def price_of_stock()
+    result = quantity() * price_per_ltr()
+    return result
+  end
+
   def price_per_ml()
     cost_of_ltr = price_per_ltr()
     cost_of_ml = cost_of_ltr / 1000 
     return cost_of_ml
   end
 
-  # def price_of_ingredient()
-    
-  # end
 
 
 
-  def self.price_of_stock()
-    sql = "SELECT ingredients.price_per_ltr FROM ingredients"
-    return Ingredient.map_items(sql)
-  end
+
+
 
   def self.delete_all()
     sql = "DELETE FROM ingredients"
@@ -61,11 +67,30 @@ class Ingredient
     return results.map { |hash| Ingredient.new( hash ) }
   end
 
+  def self.all_alcoholic()
+    sql = "SELECT * FROM ingredients WHERE is_alcoholic = 't'"
+    return Ingredient.map_items(sql)
+  end
+
+  def self.all_non_alcoholic()
+    sql = "SELECT * FROM ingredients WHERE is_alcoholic = 'f'"
+    return Ingredient.map_items(sql)
+  end
+
   def self.find( id )
     sql = "SELECT * FROM ingredients WHERE id=#{id}"
     results = SqlRunner.run( sql )
     return Ingredient.new( results.first )
   end
+  
+  # def self.stock_cost_price()
+  #   sql = "SELECT price_per_ltr FROM ingredients"
+  #   array_of_strings = SqlRunner.run(sql).values().flatten()
+  #   cost_price_array = array_of_strings.map {|string| string.to_f}
+  #   sum = 0.00
+  #   cost_price_array.each {|num| sum += num}
+  #   return sum
+  # end
 
   def self.map_items(sql)
     ingredients = SqlRunner.run(sql)
