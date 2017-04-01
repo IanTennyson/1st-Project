@@ -14,7 +14,10 @@ CREATE TABLE ingredients (
   measure_id INT4 REFERENCES measures(id) ON DELETE CASCADE,
   price_per_ltr DECIMAL,
   is_alcoholic BOOLEAN,
-  quantity INT4
+  quantity INT4,
+  cost_price INT4,
+  sale_price INT4,
+  profit INT4
 );
 
 CREATE TABLE ingredients_lists (
