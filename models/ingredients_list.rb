@@ -28,6 +28,19 @@ class IngredientList
     SqlRunner.run(sql)
   end
 
+  def ingredients_in_list
+    ing_array = []
+    sql="SELECT * FROM ingredients WHERE id = #{@ing1_id}"
+    a = SqlRunner.run( sql ).first()
+    sql="SELECT * FROM ingredients WHERE id = #{@ing2_id}"
+    b = SqlRunner.run( sql ).first()
+    sql="SELECT * FROM ingredients WHERE id = #{@ing3_id}"
+    c = SqlRunner.run( sql ).first()
+    sql="SELECT * FROM ingredients WHERE id = #{@ing4_id}"
+    d = SqlRunner.run( sql ).first()
+    ing_array<<a<<b<<c<<d
+  end
+
 
 
 
@@ -52,5 +65,11 @@ class IngredientList
     ingredients_lists = SqlRunner.run(sql)
     return ingredients_lists.map { |ingredient_list| IngredientList.new(ingredient_list) }
   end
+
+  # def self.zzz
+  #   sql = "SELECT * FROM ingredients"
+  #   result = SqlRunner.run(sql)
+  #   return results.map{|hash}
+  # end
 
 end

@@ -51,3 +51,6 @@ class Cocktail
 
 end
 
+# Is it possible to pull info from my cocktails table from my measures table? 
+# Does a method have to be a self method to be used in a controller file? 
+

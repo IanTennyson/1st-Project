@@ -1,0 +1,33 @@
+<h1>Order Stock</h1>
+<form method="post" action='/ingredients'>
+  <label for="name">Name: </label>
+  <input id="name" type="text" name="name" />
+
+  <br/>
+  <br/>
+
+  <label for="price_per_ltr">Price Per Ltr: </label>
+  <input id="price_per_ltr" type="text" name="price_per_ltr" />
+
+  <br/>
+  <br/>
+
+  <label for="is_alcoholic">Is this product alcoholic?: </label>
+  <select id="is_alcoholic" name="is_alcoholic">
+  <% for ingredient in @ingredients  %>
+    <option value=<%= ingredient.id %>><%= ingredient.is_alcoholic %></option>
+  <% end %>
+  </select>
+
+  <br/>
+  <br/>
+
+  <label for="quantity">Quantity: </label>
+  <input id="quantity" type="number" name="quantity">
+
+  <br/>
+  <br/>
+
+  <input type="submit" name="Order Stock">
+
+</form>

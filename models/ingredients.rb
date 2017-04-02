@@ -63,6 +63,12 @@ class Ingredient
     return sale_price
   end
 
+  # def ingredient_sale_price(mark_up)
+  #   sale_price = ingredient_cost_price() * mark_up
+  #   update_sale_price(sale_price)
+  #   return sale_price
+  # end
+
   def update_sale_price(new_sale_price)
     sql = "UPDATE ingredients SET (sale_price) = (#{new_sale_price}) WHERE id = #{@id}"
     SqlRunner.run(sql)
@@ -83,6 +89,12 @@ class Ingredient
     cost_of_ltr = price_per_ltr()
     cost_of_ml = cost_of_ltr / 1000 
     return cost_of_ml
+  end
+
+#returns an array with the size of ml used as a string.
+  def ml()
+    sql = "SELECT ml FROM measures WHERE id = #{@measure_id}"
+    return SqlRunner.run( sql ).first().values()
   end
 
 
@@ -118,7 +130,7 @@ class Ingredient
     return Ingredient.new( results.first )
   end
 
-
+#Array of price per ltr ints
   def self.all_price_per_ltrs()
     sql = "SELECT price_per_ltr FROM ingredients"
     result = SqlRunner.run( sql ).values().flatten()
@@ -126,6 +138,7 @@ class Ingredient
     return ltr_price_array
   end
 
+#Array of quantity ints
   def self.all_quantities()
     sql = "SELECT quantity FROM ingredients"
     quantity_string_array = SqlRunner.run( sql ).values().flatten()
@@ -133,19 +146,29 @@ class Ingredient
     return quantity_array
   end
 
-  def self.all_quantities_by_id(id)
-    sql = "SELECT quantity FROM ingredients WHERE id = #{id}"
-    result = SqlRunner.run( sql )
-    return Ingredient.new( result.first)
-  end
-
+#Array of price per ltr * quantity stored in ints
   def self.stock_cost_price_array()
     [all_price_per_ltrs(), all_quantities()].transpose.map {|a| a.inject(:*)}
   end
 
+#Total cost price of all stock stored in a int
   def self.total_stock_cost_price()
     sum = 0.0
     stock_cost_price_array.each{ |num|  sum+=num}
+    return sum.round(2)
+  end
+
+  def self.all_profits()
+    sql = "SELECT profit FROM ingredients"
+    profit_string_array = SqlRunner.run( sql ).values().flatten()
+    profit_array = profit_string_array.map{|string| string.to_f}
+    return profit_array
+  end
+#
+
+  def self.total_potential_profit()
+    sum = 0.0
+    all_profits.each{ |num|  sum+=num}
     return sum.round(2)
   end
 

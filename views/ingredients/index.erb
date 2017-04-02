@@ -1,6 +1,6 @@
 <h1>In Stock</h1>
 
-<table>
+<table class = "table1">
   <tr>
     <th>Spirit</th>
     <th></th>
@@ -41,7 +41,7 @@
   
   <hr/>
 
-<table>
+<table class = "table2">
   <tr>
     <th>Juice</th>
     <th></th>
@@ -62,6 +62,7 @@
       <td>|</td>
       <td>£<%= non_alc_ing.price_per_ltr %></td>
       <td>|</td>
+     
       <td><%= non_alc_ing.quantity %></td>
       <td>|</td>
       <td><%= non_alc_ing.cost_price %></td>
@@ -73,9 +74,19 @@
     </tr>    
   <% end %>
 </table>
+
+
 <hr/>
-<table>
+
+
+<table class = "table3">
+<tr>
   <th>Total Cost Price</th>
   <th></th>
+  <th>Total Potential Profit</th>
+  <th></th>
+  </tr>
   <td>£<%= @total_cost_price %></td>
+  <td>|</td>
+  <td>£<%= @total_profit %></td>
 </table>

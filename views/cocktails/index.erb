@@ -1,0 +1,15 @@
+<table>
+  <% for cocktail in @cocktails %>
+  <tr>
+    <%= cocktail.name %>
+  </tr>
+  
+  <% end %>
+  <hr>
+
+  <% for ingredient in @ingredients %>
+  <tr>
+    <%= ingredient.name %>
+  </tr>
+  <% end %>
+</table>

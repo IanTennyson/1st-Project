@@ -1,0 +1,30 @@
+td, th {
+  text-align: center;
+}
+
+td {
+  padding: 10px 20px 0px 0px;
+}
+
+th {
+  padding: 0px 20px 10px 0px;
+  border-bottom: 1px solid papayawhip;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.table1 {
+  width: 100%;
+  background-color: cornflowerblue;
+}
+
+.table2 {
+  width: 100%;
+  background-color: slategrey;
+}
+
+.table3 {
+  background-color: cornflowerblue;
+}
